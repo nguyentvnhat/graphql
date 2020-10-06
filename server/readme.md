@@ -2,3 +2,5 @@
 nodemon app
 
 npm install graphql express-graphql
+
+npm install lodash 
