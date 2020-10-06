@@ -11,32 +11,41 @@ const {
 
 // dummy data
 var books = [
-    { name: 'Book1', genre: 'Fantacy', id: '1' },
-    { name: 'Book2', genre: 'Fantacy', id: '2'},
-    { name: 'Book3', genre: 'Sci-Fi', id: '3' }
+    { name: 'Book1', genre: 'Fantacy', id: '1', authorId: '1' },
+    { name: 'Book2', genre: 'Fantacy', id: '2', authorId: '2'},
+    { name: 'Book3', genre: 'Sci-Fi', id: '3', authorId: '3' }
 ];
 
 var authors = [
-    { name: 'Richard01', age: 44, id: '1' },
-    { name: 'Richard02', age: 45, id: '2' },
-    { name: 'Richard03', age: 46, id: '3' }
+    { name: 'RichardAu01', age: 44, id: '2' },
+    { name: 'RichardAu02', age: 45, id: '1' },
+    { name: 'RichardAu03', age: 46, id: '3' }
 ];
 
+// return value
 const BookType = new GraphQLObjectType({
     name: 'Book',
     fields: () => ({
         id: { type: GraphQLID },
         name: { type: GraphQLString },
-        genre: { type: GraphQLString }
+        genre: { type: GraphQLString },
+        author: {
+            type: AuthorType,
+            resolve(parent, args) {
+                //parent to get relation objects
+                console.log(parent);
+                return _.find(authors, { id: parent.authorId })
+            }
+        }
     })
 });
 
 const AuthorType = new GraphQLObjectType({
     name: 'Author',
     fields: () => ({
+        id: { type: GraphQLID },
         name: { type: GraphQLString },
-        age: { type: GraphQLInt },
-        id: { type: GraphQLID }
+        age: { type: GraphQLInt }
     })
 });
 
