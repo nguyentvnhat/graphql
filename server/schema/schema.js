@@ -18,7 +18,6 @@ var books = [
     { name: 'Book4', genre: 'Fantacy', id: '3', authorId: '2' },
     { name: 'Book5', genre: 'Fantacy', id: '3', authorId: '3' },
     { name: 'Book6', genre: 'Sci-Fi', id: '3', authorId: '3' }
-
 ];
 
 var authors = [
@@ -81,6 +80,18 @@ const RootQuery = new GraphQLObjectType({
                 // args.id
                 console.log(typeof(args.id));
                 return _.find(authors, { id: args.id });
+            }
+        },
+        books: {
+            type: new GraphQLList(BookType),
+            resolve(parent, args) {
+                return books;
+            }
+        },
+        authors: {
+            type: new GraphQLList(AuthorType),
+            resolve(parent, args) {
+                return authors;
             }
         }
     }
